@@ -15,7 +15,7 @@ end
 
 function _splitStringAtChar(string,char)
   if string.match(string,char)==nil then
-    return nil
+    return string, nil
   else
     a,b=string.match(string,'([^'..char..']+)'..char..'([^,]+)')
     return a,b
@@ -28,7 +28,7 @@ function _handleCommand(recievedData)
     move=_move
   }
   command,remaining=_splitStringAtChar(recievedData,':')
-  if not command==nil and _valueInDict(command,knownCommands) then
+  if _valueInDict(command,knownCommands) then
     knownCommands[command](remaining)
   end
 end
