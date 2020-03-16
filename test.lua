@@ -14,10 +14,10 @@ function _valueInDict(value,dict)
 end
 
 function _splitStringAtChar(string,char)
-  if string.match(data,char)==nil then
+  if string.match(string,char)==nil then
     return nil
   else
-    a,b=string.match(data,'([^'..char..']+)'..char..'([^,]+)')
+    a,b=string.match(string,'([^'..char..']+)'..char..'([^,]+)')
     return a,b
   end
 end
