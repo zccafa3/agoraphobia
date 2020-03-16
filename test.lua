@@ -26,9 +26,9 @@ end
 
 function _splitStringAtChar(string,char)
   if string.match(string,char)==nil then
-    return nil
+    return string, nil
   else
-    return string.match(string,'([^'..char..']+)'..char..'([^,]+)')
+    slice,remainder=string.match(string,'([^'..char..']+)'..char..'([^,]+)')
   end
 end
 
@@ -42,9 +42,9 @@ function _handleCommand(recievedData)
     move=_moveInDirection,
     movepath=_moveInPath
   }
-  command,remaining=_splitStringAtChar(recievedData,':')
+  command,remainder=_splitStringAtChar(recievedData,':')
   if _valueInDict(command,knownCommands) then
-    knownCommands[command](remaining)
+    knownCommands[command](remainder)
   end
 end
 
@@ -71,12 +71,15 @@ function _moveInPath(path)
     quantity=string.match(step, '%d+') or 1
     direction=string.sub(step,-1)
     for i=1,quantity do
-      moveInDirection[direction]()
+      _moveInDirection[direction]()
     end
   end
 end
 
 while true do
+  print('running\nawaiting command')
   _,_,_,_,_,recievedData=event.pull('modem_message')
+  print('recieved command: '..recievedData..'\ncomencing execution of command in 3s')
+  os.sleep(3)
   _handleCommand(recievedData)
 end
