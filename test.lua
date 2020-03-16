@@ -13,18 +13,27 @@ function _valueInDict(value,dict)
   return false
 end
 
-function _handleCommand(command)
+function _splitStringAtChar(string,char)
+  if not string.match(data,char)==nil then
+    a,b=string.match(data,'([^'..char..']+)'..char..'([^,]+)')
+    return a,b
+  else
+    return nil
+end
+
+function _handleCommand(recievedData)
   local knownCommands={
     halt=_halt,
     move=_move
   }
-  if _valueInDict(command,knownCommands) then
-    knownCommands[command]()
+  command,remaining=_splitStringAtChar(recievedData,':')
+  if not command==nil and _valueInDict(command,knownCommands) then
+    knownCommands[command](remaining)
   end
 end
 
 function _halt()
-  os.exit
+  os.exit()
 end
 
 function _moveInDirection(direction)
