@@ -19,6 +19,7 @@ function _splitStringAtChar(string,char)
     return a,b
   else
     return nil
+  end
 end
 
 function _handleCommand(recievedData)
