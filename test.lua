@@ -1,8 +1,19 @@
 local component=require('component')
 local robot=require('robot')
+local sides=require('sides')
 local event=require('event')
 
 local tunnel=component.tunnel
+
+-- query user for location on startup
+-- track location (master)
+-- send command success/fail and data to master
+-- detect block (safe to move)
+-- query block known to whitelisted database (safe to mine)
+-- send master block data (if unknown)
+-- harvest block with appropriate tool
+-- collect liquid and input to barrel
+-- track blocks mined (master)
 
 function _valueInDict(value,dict)
   for k,v in pairs(dict) do
@@ -15,17 +26,21 @@ end
 
 function _splitStringAtChar(string,char)
   if string.match(string,char)==nil then
-    return string, nil
+    return nil
   else
-    a,b=string.match(string,'([^'..char..']+)'..char..'([^,]+)')
-    return a,b
+    return string.match(string,'([^'..char..']+)'..char..'([^,]+)')
   end
 end
 
 function _handleCommand(recievedData)
   local knownCommands={
     halt=_halt,
-    move=_move
+    use=_use,
+    dig=_dig,
+    detect=_detect,
+    analyze=_analyze,
+    move=_moveInDirection,
+    movepath=_moveInPath
   }
   command,remaining=_splitStringAtChar(recievedData,':')
   if _valueInDict(command,knownCommands) then
@@ -48,6 +63,16 @@ function _moveInDirection(direction)
   }
   if _valueInDict(direction,knownDirections) then
     knownDirections[direction]()
+  end
+end
+
+function _moveInPath(path)
+  for step in string.gmatch(path, '%d*%a') do
+    quantity=string.match(step, '%d+') or 1
+    direction=string.sub(step,-1)
+    for i=1,quantity do
+      moveInDirection[direction]()
+    end
   end
 end
 
