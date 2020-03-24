@@ -49,6 +49,10 @@ function _checkSideIsValid(side)
   end
 end
 
+function _logError(message)
+  print('ERR: ' .. message)
+end
+
 -- Command Handlers
 
 function _handleCommand(recievedData)
@@ -58,6 +62,8 @@ function _handleCommand(recievedData)
   handler, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(handler, knownHandlers) then
     return knownHandlers[handler](remainder)
+  else
+    _logError('unknown handler, ' .. handler)
   end
 end
 
@@ -67,6 +73,8 @@ function _handleControlCommand(recievedData)
   controlCommand, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(controlCommand, knownControlCommands) then
     return knownControlCommands[controlCommand](remainder)
+  else
+    _logError('unknown control command, ' .. controlCommand)
   end
 end
 
@@ -84,6 +92,8 @@ function _handleBaseCommands(recievedData)
   baseCommand, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(baseCommand, knownBaseCommands) then
     return knownBaseCommands[baseCommand](remainder)
+  else
+    _logError('unknown base command, ' .. baseCommand)
   end
 end
 
@@ -91,6 +101,7 @@ end
 
 function _halt()
   os.exit()
+  print('this executed')
 end
 
 -- Base Methods
