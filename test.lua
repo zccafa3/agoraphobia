@@ -50,6 +50,17 @@ function _checkSideIsValid(side)
   end
 end
 
+function _getSideValue(side)
+  local knownSides = {
+    u = 1,
+    d = 0,
+    f = 3,
+    b = 2,
+    l = 5,
+    r = 4}
+  return knownSides[side]
+end
+
 function _logError(message)
   print('ERR: ' .. message)
 end
@@ -156,19 +167,19 @@ end
 
 function _leftClick(side)
   if _checkSideIsValid(side) then
-    return robot.swing(side)
+    return robot.swing(_getSideValue(side))
   end
 end
 
 function _rightClick(side, sneaky, duration)
   if _checkSideIsValid(side) then
-    return robot.use(side, sneaky, duration)
+    return robot.use(_getSideValue(side), sneaky, duration)
   end
 end
 
 function _place(side, sneaky)
   if _checkSideIsValid(side) then
-    return robot.place(side, sneaky)
+    return robot.place(_getSideValue(side), sneaky)
   end
 end
 
@@ -229,6 +240,6 @@ while true do
   if commandReturns[1] == true then
     _sendDataToMaster(true)
   else
-    sendDataToMaster(_concatListValues(commandReturns))
+    _sendDataToMaster(_concatListValues(commandReturns))
   end
 end
