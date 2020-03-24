@@ -26,11 +26,11 @@ function _checkValueInDict(value, dict)
   return false
 end
 
-function _splitStringAtChar(string,char)
+function _splitStringAtChar(string, char)
   if string.match(string, char) == nil then
     return string, nil
   else
-    slice, remainder = string.match(string, '([^' .. char .. ']+)' .. char .. '([^,]+)')
+    return string.match(string, '([^' .. char .. ']+)' .. char .. '([^,]+)')
   end
 end
 
@@ -59,7 +59,7 @@ function _handleCommand(recievedData)
   local knownHandlers = {
     control = _handleControlCommand,
     base = _handleBaseCommand}
-  handler, remainder = _splitStringAtChar(recievedData, ':')
+  local handler, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(handler, knownHandlers) then
     return knownHandlers[handler](remainder)
   else
@@ -70,7 +70,7 @@ end
 function _handleControlCommand(recievedData)
   local knownControlCommands = {
     halt = _halt}
-  controlCommand, remainder = _splitStringAtChar(recievedData, ':')
+  local controlCommand, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(controlCommand, knownControlCommands) then
     return knownControlCommands[controlCommand](remainder)
   else
@@ -89,7 +89,7 @@ function _handleBaseCommands(recievedData)
     place = _place,
     getLightColor = _getLightColor,
     setLightColor = _setLightColor}
-  baseCommand, remainder = _splitStringAtChar(recievedData, ':')
+  local baseCommand, remainder = _splitStringAtChar(recievedData, ':')
   if _checkValueInDict(baseCommand, knownBaseCommands) then
     return knownBaseCommands[baseCommand](remainder)
   else
