@@ -4,16 +4,6 @@ local event = require('event')
 
 local tunnel = component.tunnel
 
--- query user for location on startup
--- track location (master)
--- send command success/fail and data to master
--- detect block (safe to move)
--- query block known to whitelisted database (safe to mine)
--- send master block data (if unknown)
--- harvest block with appropriate tool
--- collect liquid and input to barrel
--- track blocks mined (master)
-
 
 -- Helper Functions --
 ----------------------
@@ -219,17 +209,24 @@ end
   -- returns number of items in specified slot, otherwise selected slot
 
 
--- Custom Methods
+-- Custom Methods --
+--------------------
 
 function _moveInPath(path)
   for step in string.gmatch(path, '%d*%a') do
-    quantity = string.match(step, '%d+') or 1
-    direction = string.sub(step, -1)
+    local quantity = string.match(step, '%d+') or 1
+    local direction = string.sub(step, -1)
     for i = 1, quantity do
-      _moveInDirection[direction]()
+      local success = _moveInDirection[direction]()
+      if not success then
+        return false
+      end
     end
   end
 end
+
+-- Main --
+----------
 
 while true do
   print('running\nawaiting command')
