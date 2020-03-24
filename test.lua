@@ -1,6 +1,5 @@
 local component = require('component')
 local robot = require('robot')
-local sides = require('sides')
 local event = require('event')
 
 local tunnel = component.tunnel
@@ -15,7 +14,9 @@ local tunnel = component.tunnel
 -- collect liquid and input to barrel
 -- track blocks mined (master)
 
--- Helper Functions
+
+-- Helper Functions --
+----------------------
 
 function _checkValueInDict(value, dict)
   for k, v in pairs(dict) do
@@ -53,7 +54,22 @@ function _logError(message)
   print('ERR: ' .. message)
 end
 
--- Command Handlers
+function _concatListValues(list)
+  return table.concat(table, ':')
+end
+
+function _sendDataToMaster(data)
+  return tunnel.send(data)
+end
+
+function _recieveDataFromMaster()
+  local _, _, _, _, _, recievedData = event.pull('modem_message')
+  return recievedData
+end
+
+
+-- Command Handlers --
+----------------------
 
 function _handleCommand(recievedData)
   local knownHandlers = {
@@ -78,7 +94,7 @@ function _handleControlCommand(recievedData)
   end
 end
 
-function _handleBaseCommands(recievedData)
+function _handleBaseCommand(recievedData)
   local knownBaseCommands = {
     durability = _getToolDurability,
     move = _move,
@@ -97,14 +113,18 @@ function _handleBaseCommands(recievedData)
   end
 end
 
--- Device Control Methods
+
+-- Control Methods --
+---------------------
 
 function _halt()
   os.exit()
   print('this executed')
 end
 
--- Base Methods
+
+-- Base Methods --
+------------------
 
 function _getToolDurability()
   return robot.durability()
@@ -161,7 +181,9 @@ function _setLightColor(value)
   return robot.setLightColor(value)
 end
 
--- Internal Inventory Methods
+
+-- Internal Inventory Methods --
+--------------------------------
 
 function _getInventorySize()
   -- returns size of the device's internal inventoy
@@ -200,8 +222,13 @@ end
 
 while true do
   print('running\nawaiting command')
-  _, _, _, _, _, recievedData = event.pull('modem_message')
+  recievedData = _recieveDataFromMaster()
   print('recieved command: ' .. recievedData .. '\ncomencing execution of command in 3s')
   os.sleep(3)
-  _handleCommand(recievedData)
+  commandReturns = {_handleCommand(recievedData)}
+  if commandReturns[1] == true then
+    _sendDataToMaster(true)
+  else
+    sendDataToMaster(_concatListValues(commandReturns))
+  end
 end
