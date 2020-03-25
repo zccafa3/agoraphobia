@@ -31,4 +31,5 @@ function helperLib.splitStringAtChar(string, char)
   end
 end
 
+
 return helperLib

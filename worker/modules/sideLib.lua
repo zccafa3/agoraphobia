@@ -1,12 +1,14 @@
+-- dependencies
 local helperLib = require('helperLib')
 
 
 --- provides orientation functionality
--- @module sidesLib
+-- @module sideLib
 local sideLib = {}
 
 
 --- a table of orientations and values
+-- @table knownSides
 local knownSides = {
   u = 1,
   d = 0,
@@ -16,8 +18,10 @@ local knownSides = {
   r = 4}
 
 
----
---
+--- checkSideIsValid checks the specified orientation is valid
+-- @param side specified orientation
+-- @tparam string
+-- @return true, or false
 function sideLib.checkSideIsValid(side)
   if helperLib.checkValueInDict(side, knownSides) then
     return true
@@ -28,13 +32,15 @@ end
 
 
 --- getSideValue provides the relative value for the specified orientation
--- @param side specified orientation string
+-- @param side specified orientation
+-- @tparam string
 -- @return orientation value, or nil
+-- @todo handle invalid side error
 function sideLib.getSideValue(side)
   if sideLib.checkSideIsValid(side) then
     return knownSides[side]
   else
-    -- ToDo: handle invalid side error
+    -- todo: handle invalid side error
   end
 end
 
