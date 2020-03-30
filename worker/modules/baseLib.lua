@@ -1,5 +1,5 @@
 --- Provides functionality for a device's base methods 
--- @module baseLibLib
+-- @module baseLib
 local baseLib = {}
 _ENV = baseLib
 
@@ -20,10 +20,11 @@ local knownInstructs = {
   rightClick        = rightClick,
   placeBlock        = placeBlock,
   getLightColor     = getLightColor,
-  setLightColor     = setLightColor}
+  setLightColor     = setLightColor,
+  isObstructed      = isObstructed}
 
 --- handleBaseInstruct executes the specified instruct with the appropriate
---number of arguements
+---number of arguements
 -- @param instructStr instruction to be executed
 -- @tparam string
 -- @return relative returns
@@ -61,7 +62,7 @@ function baseLib.getName()
   return robot.name()
 end
 
---- leftClick performs a leftClick action
+--- leftClick performs a leftClick action on the specified side
 -- @param side to perform the leftClick action
 -- @tparam string
 -- @return true, or false[, string]
@@ -69,7 +70,7 @@ function baseLib.leftClick(side)
   return robot.swing(sidesLib.getSideVal(side))
 end
 
---- rightClick performs a rightClick action
+--- rightClick performs a rightClick action on the specified side
 -- @param side to perform the rightClick action
 -- @tparam string
 -- @param sneaky performs rightClick while shifting
@@ -81,7 +82,7 @@ function baseLib.rightClick(side, ...) -- sneaky, duration
   return robot.use(sidesLib.getSideVal(side, ...))
 end
 
---- placeBlock places a block from the current slot
+--- placeBlock places a block from the current slot on the specified side
 -- @param side to place the block
 -- @tparam string
 -- @param sneaky performs placeBlock while shifting
@@ -102,6 +103,15 @@ end
 -- @return true, or false
 function baseLib.setLightColor(color)
   return robot.setLightColor(color)
+end
+
+--- isObstructed checks whether there is an obstruction (block) on the
+---specified side
+-- @param side to be checked
+-- @tparam string
+-- @return true, or false[, string]
+function baseLib.isObstructed(side)
+  return robot.detect(sidesLib.getSideVal(side))
 end
 
 return baseLib

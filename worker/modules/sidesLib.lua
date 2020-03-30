@@ -3,9 +3,10 @@
 local sidesLib = {}
 _ENV = sidesLib
 
+--- Dependencies
 local sides = require('sides')
 
---- a table of orientations and values
+--- Table of orientations and relative values
 -- @table knownSides
 local knownSides = {
   u = sides.bottom,

@@ -18,7 +18,7 @@ local knownInstructs = {
   getSlotCount        = getSlotCount,
   getCurrSlotSpace    = getCurrSlotSpace,
   getSlotSpace        = getSlotSpace,
-  checkSlotItemsEquiv = checkSlotItemsEquiv,
+  checkSlotItemEquiv  = checkSlotItemEquiv,
   moveStackToSlot     = moveStackToSlot,
   moveItemsToSlot     = moveItemsToSlot}
 
@@ -26,10 +26,10 @@ local knownInstructs = {
 ---number of arguements
 -- @param instructStr instruction to be executed
 -- @tparam string
--- @return
-function handleIntInvInstruct(instructStr)
+-- @return relative returns
+function intInvLib.handleIntInvInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgList)
+  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
@@ -84,7 +84,7 @@ function intInvLib.getSlotSpace(slot)
 end
 
 --- checkSlotItemEquiv check whether the contents of the current and specified
---slots are equivalent
+---slots are equivalent
 -- @param slot to be compared
 -- @tparam number
 -- @return true, or false

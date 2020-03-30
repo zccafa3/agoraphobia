@@ -27,7 +27,7 @@ end
 --- multiSplitStrAtColon splits a string at each ':' (excluded)
 -- @param string to be split
 -- @tparam string
--- @return table of string splits
+-- @return table of string splits, or string
 function utilsLib.multiSplitStrAtColon(string)
   local stringList = {}
   if checkColonInStr(string) then
@@ -47,6 +47,7 @@ end
 -- @param argList table of arguements to be passed
 -- @tparam table
 -- @return relative returns
+-- @todo handle more arguements (if required)
 function utilsLib.runFuncWithArgs(f, argList)
   if #argList == 1 then
     return f(argList[1])
@@ -55,7 +56,7 @@ function utilsLib.runFuncWithArgs(f, argList)
   elseif #argList == 3 then
     return f(argList[1], argList[2], argList[3])
   else
-    -- todo: handle more arguements
+    -- todo: handle more arguements (if required)
   end
 end
 
