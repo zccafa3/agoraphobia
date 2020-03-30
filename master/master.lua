@@ -1,5 +1,7 @@
+local component = require('component')
 local event = require('event')
-local tunnel = require('tunnel')
+
+local tunnel = component.tunnel
 
 function sendWorkerData(data)
   return tunnel.send(data)

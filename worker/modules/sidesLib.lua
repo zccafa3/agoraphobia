@@ -1,10 +1,11 @@
 --- provides orientation functionality
 -- @module sideLib
 local sidesLib = {}
-_ENV = sidesLib
 
 --- Dependencies
 local sides = require('sides')
+
+_ENV = sidesLib
 
 --- Table of orientations and relative values
 -- @table knownSides

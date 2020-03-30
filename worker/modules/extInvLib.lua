@@ -1,11 +1,12 @@
 --- provides functionality for a device's external inventory methods
 -- @module extInvLib
 local extInvLib = {}
-_ENV = extInvLib
 
 --- Dependencies
 local sidesLib = require('sidesLib')
 local utilsLib = require('utilsLib')
+
+_ENV = extInvLib
 
 --- Table of known instructs
 -- @table knownInstructs

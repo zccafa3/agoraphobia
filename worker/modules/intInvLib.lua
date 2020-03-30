@@ -1,12 +1,13 @@
 --- Provides functionality for a device's internal inventory methods 
 -- @module intInvLib
 local intInvLib = {}
-_ENV = intInvLib
 
 --- Dependencies
 local robot = require('robot')
 
 local utilsLib = require('utilsLib')
+
+_ENV = intInvLib
 
 --- Table of known internal inventory instructs
 -- @table knownInstructs

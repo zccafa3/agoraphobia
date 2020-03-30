@@ -1,5 +1,5 @@
+local component = require('component')
 local event = require('event')
-local tunnel = require('tunnel')
 
 local utilsLib = require('utilsLib')
 local ctrlLib = require('ctrlLib')
@@ -8,6 +8,8 @@ local intInvLib = require('intInvLib')
 local intTankLib = require('intTankLib')
 local extInvLib = require('extInvLib')
 local extTankLib = require('extTankLib')
+
+local tunnel = component.tunnel
 
 local knownInstructs = {
   ctrl = ctrlLib,

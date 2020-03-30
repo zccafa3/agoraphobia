@@ -1,13 +1,14 @@
 --- Provides functionality for a device's base methods 
 -- @module baseLib
 local baseLib = {}
-_ENV = baseLib
 
 --- Dependencies
 local robot = require('robot')
 
 local utilsLib = require('utilsLib')
 local sidesLib = require('sidesLib')
+
+_ENV = baseLib
 
 --- Table of base instructs
 -- @table knownInstructs
@@ -36,7 +37,7 @@ end
 
 --- getToolDurability gets the durability of the currently equipted tool
 -- @return tool durability
-function baseLibLib.getToolDurability()
+function baseLib.getToolDurability()
   return robot.durability()
 end
 
@@ -44,7 +45,7 @@ end
 -- @param direction to move
 -- @tparam string
 -- @return true, or false
-function baseLibLib.move(direction)
+function baseLib.move(direction)
   return robot.move(sidesLib.getSideVal(direction))
 end
 
@@ -52,7 +53,7 @@ end
 -- @param direction to turn
 -- @tparam string
 -- @return true, or false
-function baseLibLib.turn(direction)
+function baseLib.turn(direction)
   return robot.turn((sidesLib.getSideVal(direction) == 4) or false)
 end
 

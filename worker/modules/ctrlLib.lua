@@ -1,10 +1,11 @@
 --- provides some operating functionality
 -- @module ctrlLib
 local ctrlLib = {}
-_ENV = ctrlLib
 
 --- Dependencies
 local utilsLib = require('utilsLib')
+
+_ENV = ctrlLib
 
 --- Table of known instructs
 -- @table knownInstructs
