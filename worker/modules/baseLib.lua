@@ -3,12 +3,41 @@
 local baseLib = {}
 
 --- Dependencies
-local robot = require('robot')
+local component = require('component')
 
 local utilsLib = require('utilsLib')
 local sidesLib = require('sidesLib')
 
+local robot = component.robot
+
 _ENV = baseLib
+
+--- Table of base instructs
+-- @table knownInstructs
+local knownInstructs = {
+  getToolDurability = getToolDurability,
+  move              = move,
+  turn              = turn,
+  getName           = getName,
+  leftClick         = leftClick,
+  rightClick        = rightClick,
+  placeBlock        = placeBlock,
+  getLightColor     = getLightColor,
+  setLightColor     = setLightColor,
+  isObstructed      = isObstructed}
+
+--- handleBaseInstruct executes the specified instruct with the appropriate
+---number of arguements
+-- @param instructStr instruction to be executed
+-- @tparam string
+-- @return relative returns
+function baseLib.handleBaseInstruct(instructStr)
+  local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
+  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
+  return move('f')
+  --return knownInstructs[instruct](instructArgList[1])
+  --return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
+end
 
 --- getToolDurability gets the durability of the currently equipted tool
 -- @return tool durability
@@ -88,33 +117,6 @@ end
 -- @return true, or false[, string]
 function baseLib.isObstructed(side)
   return robot.detect(sidesLib.getSideVal(side))
-end
-
---- Table of base instructs
--- @table knownInstructs
-local knownInstructs = {
-  getToolDurability = getToolDurability,
-  move              = move,
-  turn              = turn,
-  getName           = getName,
-  leftClick         = leftClick,
-  rightClick        = rightClick,
-  placeBlock        = placeBlock,
-  getLightColor     = getLightColor,
-  setLightColor     = setLightColor,
-  isObstructed      = isObstructed}
-
---- handleBaseInstruct executes the specified instruct with the appropriate
----number of arguements
--- @param instructStr instruction to be executed
--- @tparam string
--- @return relative returns
-function baseLib.handleBaseInstruct(instructStr)
-  local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  return move('f')
-  --return knownInstructs[instruct](instructArgList[1])
-  --return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
 return baseLib
