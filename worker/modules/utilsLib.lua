@@ -1,6 +1,10 @@
 --- provides a few helpful functions
 -- @module utilsLib
 local utilsLib = {}
+
+local string = string
+local table = table
+
 _ENV = utilsLib
 
 --- checkColonInStr checks if there is a ':' in string
@@ -18,7 +22,7 @@ end
 -- @return string after ':', or nil
 function utilsLib.splitStrAtColon(string)
   if checkColonInStr(string) then
-    return string.match(string, '(.-):(.-)+')
+    return string.match(string, '(.-):(.*)')
   else
     return string, nil
   end
@@ -30,14 +34,14 @@ end
 -- @return table of string splits, or string
 function utilsLib.multiSplitStrAtColon(string)
   local stringList = {}
-  if checkColonInStr(string) then
+  if utilsLib.checkColonInStr(string) then
     for str in string.gmatch(string, '[^:]+') do
       table.insert(stringList, str)
     end
-    return stringList
   else
-    return {string}
+    table.insert(stringList, string)
   end
+  return stringList
 end
 
 --- runFuncWithArgs executes the specified function with appropriate number of
