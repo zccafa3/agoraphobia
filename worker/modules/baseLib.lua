@@ -15,37 +15,16 @@ _ENV = baseLib
 --- Table of base instructs
 -- @table knownInstructs
 local knownInstructs = {
-  getToolDurability = getToolDurability,
-  move              = move,
-  turn              = turn,
-  getName           = getName,
-  leftClick         = leftClick,
-  rightClick        = rightClick,
-  placeBlock        = placeBlock,
-  getLightColor     = getLightColor,
-  setLightColor     = setLightColor,
-  isObstructed      = isObstructed}
-
---- handleBaseInstruct executes the specified instruct with the appropriate
----number of arguements
--- @param instructStr instruction to be executed
--- @tparam string
--- @return relative returns
-function baseLib.handleBaseInstruct(instructStr)
-  local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  --if #instructArgList == 1 then
-  --  return knownInstructs[instruct](instructArgList[1])
-  --elseif #instructArgList == 2 then
-  --  return knownInstructs[instruct](instructArgList[1], instructArgList[2])
-  --elseif #instructArgList == 3 then
-  --  return knownInstructs[instruct](
-  --  instructArgList[1],
-  --  instructArgList[2],
-  --  instructArgList[3])
-  --end
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
-end
+  getToolDurability = baseLib.getToolDurability,
+  move              = baseLib.move,
+  turn              = baseLib.turn,
+  getName           = baseLib.getName,
+  leftClick         = baseLib.leftClick,
+  rightClick        = baseLib.rightClick,
+  placeBlock        = baseLib.placeBlock,
+  getLightColor     = baseLib.getLightColor,
+  setLightColor     = baseLib.setLightColor,
+  isObstructed      = baseLib.isObstructed}
 
 --- getToolDurability gets the durability of the currently equipted tool
 -- @return tool durability
@@ -125,6 +104,30 @@ end
 -- @return true, or false[, string]
 function baseLib.isObstructed(side)
   return robot.detect(sidesLib.getSideVal(side))
+end
+
+--- handleBaseInstruct executes the specified instruct with the appropriate
+---number of arguements
+-- @param instructStr instruction to be executed
+-- @tparam string
+-- @return relative returns
+function baseLib.handleBaseInstruct(instructStr)
+  --- Table of base instructs
+  -- @table knownInstructs
+  --local knownInstructs = {
+  --  getToolDurability = baseLib.getToolDurability,
+  --  move              = baseLib.move,
+  --  turn              = baseLib.turn,
+  --  getName           = baseLib.getName,
+  --  leftClick         = baseLib.leftClick,
+  --  rightClick        = baseLib.rightClick,
+  --  placeBlock        = baseLib.placeBlock,
+  --  getLightColor     = baseLib.getLightColor,
+  --  setLightColor     = baseLib.setLightColor,
+  --  isObstructed      = baseLib.isObstructed}
+  local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
+  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
 return baseLib

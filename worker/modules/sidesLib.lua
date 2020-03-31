@@ -23,7 +23,7 @@ local knownSides = {
 -- @return orientation value, or nil
 -- @todo handle invalid side error
 function sidesLib.getSideVal(side)
-    return knownSides[side]
+  return knownSides[side]
 end
 
 return sidesLib
