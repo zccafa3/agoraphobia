@@ -112,19 +112,6 @@ local knownInstructs = {
 -- @tparam string
 -- @return relative returns
 function baseLib.handleBaseInstruct(instructStr)
-  --- Table of base instructs
-  -- @table knownInstructs
-  --local knownInstructs = {
-  --  getToolDurability = baseLib.getToolDurability,
-  --  move              = baseLib.move,
-  --  turn              = baseLib.turn,
-  --  getName           = baseLib.getName,
-  --  leftClick         = baseLib.leftClick,
-  --  rightClick        = baseLib.rightClick,
-  --  placeBlock        = baseLib.placeBlock,
-  --  getLightColor     = baseLib.getLightColor,
-  --  setLightColor     = baseLib.setLightColor,
-  --  isObstructed      = baseLib.isObstructed}
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)

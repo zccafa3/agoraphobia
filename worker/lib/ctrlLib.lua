@@ -7,6 +7,11 @@ local utilsLib = require('utilsLib')
 
 _ENV = ctrlLib
 
+--- halt throws an error to try and terminate the current coroutine
+local function halt()
+  os.exit()
+end
+
 --- Table of known instructs
 -- @table knownInstructs
 local knownInstructs = {
@@ -21,11 +26,6 @@ function ctrlLib.handleCtrlInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
-end
-
---- halt throws an error to try and terminate the current coroutine
-function ctrlLib.halt()
-  os.exit()
 end
 
 return ctrlLib

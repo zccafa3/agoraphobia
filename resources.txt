@@ -1,0 +1,13 @@
+Open Computers
+https://ocdoc.cil.li/
+https://github.com/MightyPirates/OpenComputers
+
+Lua
+http://www.lua.org/pil/contents.html
+https://www.tutorialspoint.com/lua/
+
+LDoc
+https://stevedonovan.github.io/ldoc/manual/doc.md.html
+
+Best Practice
+https://m.mediawiki.org/wiki/Help:Lua/Lua_best_practice

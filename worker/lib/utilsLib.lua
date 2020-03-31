@@ -4,6 +4,7 @@ local utilsLib = {}
 
 local string = string
 local table = table
+local type = type
 
 _ENV = utilsLib
 
@@ -34,11 +35,11 @@ end
 -- @return table of string splits, or string
 function utilsLib.multiSplitStrAtColon(string)
   local stringList = {}
-  if utilsLib.checkColonInStr(string) then
+  if type(string) == string and utilsLib.checkColonInStr(string) then
     for str in string.gmatch(string, '[^:]+') do
       table.insert(stringList, str)
     end
-  else
+  elseif type(string) == string then
     table.insert(stringList, string)
   end
   return stringList
@@ -53,7 +54,9 @@ end
 -- @return relative returns
 -- @todo handle more arguements (if required)
 function utilsLib.runFuncWithArgs(f, argList)
-  if #argList == 1 then
+  if argList == nil then
+    return f()
+  elseif #argList == 1 then
     return f(argList[1])
   elseif #argList == 2 then
     return f(argList[1], argList[2])
