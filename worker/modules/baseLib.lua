@@ -34,9 +34,17 @@ local knownInstructs = {
 function baseLib.handleBaseInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  return move('f')
-  --return knownInstructs[instruct](instructArgList[1])
-  --return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
+  --if #instructArgList == 1 then
+  --  return knownInstructs[instruct](instructArgList[1])
+  --elseif #instructArgList == 2 then
+  --  return knownInstructs[instruct](instructArgList[1], instructArgList[2])
+  --elseif #instructArgList == 3 then
+  --  return knownInstructs[instruct](
+  --  instructArgList[1],
+  --  instructArgList[2],
+  --  instructArgList[3])
+  --end
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
 --- getToolDurability gets the durability of the currently equipted tool
