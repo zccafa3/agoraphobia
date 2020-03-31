@@ -14,7 +14,7 @@ _ENV = baseLib
 
 --- getToolDurability gets the durability of the currently equipted tool
 -- @return tool durability
-function baseLib.getToolDurability()
+local function getToolDurability()
   return robot.durability()
 end
 
@@ -22,7 +22,7 @@ end
 -- @param direction to move
 -- @tparam string
 -- @return true, or false
-function baseLib.move(direction)
+local function move(direction)
   return robot.move(sidesLib.getSideVal(direction))
 end
 
@@ -30,13 +30,13 @@ end
 -- @param direction to turn
 -- @tparam string
 -- @return true, or false
-function baseLib.turn(direction)
+local function turn(direction)
   return robot.turn((sidesLib.getSideVal(direction) == 4) or false)
 end
 
 --- getName gets the name of the device
 -- @return name
-function baseLib.getName()
+local function getName()
   return robot.name()
 end
 
@@ -44,7 +44,7 @@ end
 -- @param side to perform the leftClick action
 -- @tparam string
 -- @return true, or false[, string]
-function baseLib.leftClick(side)
+local function leftClick(side)
   return robot.swing(sidesLib.getSideVal(side))
 end
 
@@ -56,7 +56,7 @@ end
 -- @param duration to perform the rightClick action
 -- @tparam number
 -- @return true, or false[, string]
-function baseLib.rightClick(side, ...) -- sneaky, duration
+local function rightClick(side, ...) -- sneaky, duration
   return robot.use(sidesLib.getSideVal(side, ...))
 end
 
@@ -66,20 +66,20 @@ end
 -- @param sneaky performs placeBlock while shifting
 -- @tparam boolean
 -- @return true, or false[, string]
-function baseLib.placeBlock(side, ...) -- sneaky
+local function placeBlock(side, ...) -- sneaky
   return robot.place(sidesLib.getSideVal(side, ...))
 end
 
 --- getLightColor gets the current color of the device's light
 -- @return integer encoded RGB value (0xRRGGBB)
-function baseLib.getLightColor()
+local function getLightColor()
   return robot.getLightColor()
 end
 
 --- setLightColor sets the color of the device's light
 -- @param color is an integer enconded RGB value (0xRRGGBB)
 -- @return true, or false
-function baseLib.setLightColor(color)
+local function setLightColor(color)
   return robot.setLightColor(color)
 end
 
@@ -88,23 +88,23 @@ end
 -- @param side to be checked
 -- @tparam string
 -- @return true, or false[, string]
-function baseLib.isObstructed(side)
+local function isObstructed(side)
   return robot.detect(sidesLib.getSideVal(side))
 end
 
 --- Table of base instructs
 -- @table knownInstructs
 local knownInstructs = {
-  getToolDurability = baseLib.getToolDurability,
-  move              = baseLib.move,
-  turn              = baseLib.turn,
-  getName           = baseLib.getName,
-  leftClick         = baseLib.leftClick,
-  rightClick        = baseLib.rightClick,
-  placeBlock        = baseLib.placeBlock,
-  getLightColor     = baseLib.getLightColor,
-  setLightColor     = baseLib.setLightColor,
-  isObstructed      = baseLib.isObstructed}
+  getToolDurability = getToolDurability,
+  move              = move,
+  turn              = turn,
+  getName           = getName,
+  leftClick         = leftClick,
+  rightClick        = rightClick,
+  placeBlock        = placeBlock,
+  getLightColor     = getLightColor,
+  setLightColor     = setLightColor,
+  isObstructed      = isObstructed}
 
 --- handleBaseInstruct executes the specified instruct with the appropriate
 ---number of arguements
