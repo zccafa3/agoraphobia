@@ -12,20 +12,6 @@ local robot = component.robot
 
 _ENV = baseLib
 
---- Table of base instructs
--- @table knownInstructs
-local knownInstructs = {
-  getToolDurability = baseLib.getToolDurability,
-  move              = baseLib.move,
-  turn              = baseLib.turn,
-  getName           = baseLib.getName,
-  leftClick         = baseLib.leftClick,
-  rightClick        = baseLib.rightClick,
-  placeBlock        = baseLib.placeBlock,
-  getLightColor     = baseLib.getLightColor,
-  setLightColor     = baseLib.setLightColor,
-  isObstructed      = baseLib.isObstructed}
-
 --- getToolDurability gets the durability of the currently equipted tool
 -- @return tool durability
 function baseLib.getToolDurability()
@@ -105,6 +91,20 @@ end
 function baseLib.isObstructed(side)
   return robot.detect(sidesLib.getSideVal(side))
 end
+
+--- Table of base instructs
+-- @table knownInstructs
+local knownInstructs = {
+  getToolDurability = baseLib.getToolDurability,
+  move              = baseLib.move,
+  turn              = baseLib.turn,
+  getName           = baseLib.getName,
+  leftClick         = baseLib.leftClick,
+  rightClick        = baseLib.rightClick,
+  placeBlock        = baseLib.placeBlock,
+  getLightColor     = baseLib.getLightColor,
+  setLightColor     = baseLib.setLightColor,
+  isObstructed      = baseLib.isObstructed}
 
 --- handleBaseInstruct executes the specified instruct with the appropriate
 ---number of arguements
