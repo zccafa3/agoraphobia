@@ -48,8 +48,8 @@ local function createMissingDirs()
   end
 end
 
---- getGithubInstallBranch gets the branch (string) of install from User
--- @return branch (string)
+--- getGithubInstallBranch gets the branch of install from User
+-- @return branch
 local function getGithubInstallBranch()
   print('Input branch to download insallation scripts from')
   return io.stdin:read() .. '/'
