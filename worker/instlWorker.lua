@@ -2,6 +2,7 @@
 local component = require('component')
 local computer = require('computer')
 local filesystem = require('filesystem')
+local internet = require('internet')
 local serialization = require('serialization')
 local term = require('term')
 
@@ -99,15 +100,16 @@ local function updateInstallPercent(numCurrScript, githubPath)
   local percent = numCurrScript / numInstallScripts
   local barRep = math.floor(barWidth * percent + 0.5)
   term.setCursor(1, termY)
-  if percent < 1.0 then
-    local sName = string.sub(string.match(githubPath, '([^/]+)$') .. 
-      string.rep(' ', scriptNameMaxLen), 1, scriptNameMaxLen)
+  local scriptName = ''
+  if percent ~= 1.0 then
+    scriptName = scriptName .. string.sub(string.match(githubPath, '([^/]+)$') 
+      .. string.rep(' ', maxScriptNameLen), 1, maxScriptNameLen)
   else
-    local sName = string.sub('Done' ..            
-      string.rep(' ', scriptNameMaxLen), 1, scriptNameMaxLen)
+    scriptName = scriptName .. string.sub('Done' ..            
+      string.rep(' ', maxScriptNameLen), 1, maxScriptNameLen)
   end
-  term.write(sName .. ' |' .. string.rep('=', barRep) .. '>' .. 
-    string.rep(' ', barWidthMax - barRep) .. '|' .. 
+  term.write(scriptName .. ' |' .. string.rep('=', barRep) .. '>' .. 
+    string.rep(' ', barWidth - barRep) .. '|' .. 
     string.format('%6.2f%%', percent * 100), false)
 end
 
@@ -145,13 +147,6 @@ end
 --- main
 local function main()
   print('Running \'zccafa3\'s\' script installer')
-  if component.isAvailable('internet') then
-    local internet = component.internet
-    -- local internet = require('internet')
-  else
-    print('An internet card is required for script installer')
-    return false
-  end
   removeExistingScripts()
   createMissingDirs()
   local githubInstallBranch = getGithubInstallBranch()
@@ -160,17 +155,18 @@ local function main()
   for installPath, githubPath in pairs(installPathsAndScripts) do
     updateInstallPercent(numCurrScript, githubPath)
     os.sleep(0.5)
-    local scriptData = fetchScript(githubInstallBranch, githubPath)
+    local scriptData = downloadScript(githubInstallBranch, githubPath)
     if scriptData == nil then
       print('Failed to download script: ' .. 
         string.match(githubPath, '([^/]+)$'))
       return false
     end
-    if not installScript(scriptData) then
+    if not installScript(installPath, scriptData) then
       print('Failed to install script: ' .. 
-      string.match(githubPath, '([^/]+)$'))
+        string.match(githubPath, '([^/]+)$'))
+      return false
     end
-    currScriptNum = currScriptNum + 1
+    numCurrScript = numCurrScript + 1
     updateInstallPercent(numCurrScript, githubPath)
   end
   print('Installation complete. Restarting system.')
