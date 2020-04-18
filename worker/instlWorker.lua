@@ -1,10 +1,10 @@
 --- Dependencies
 local component = require('component')
+local computer = require('computer')
 local filesystem = require('filesystem')
 local serialization = require('serialization')
 local term = require('term')
 
-local data = component.data
 local gpu = component.gpu
 
 --- Github Download Repositorys URL and Instalation Paths
@@ -21,39 +21,6 @@ local installPathsAndScripts = {
   ['/home/lib/intTankLib.lua']  = 'lib/intTankLib.lua',
   ['/home/lib/extInvLib.lua']   = 'lib/extInvLib.lua',
   ['/home/lib/extTankLib.lua']  = 'lib/extTankLib.lua'}
-
---- main
-local function main()
-  print('Running \'zccafa3\'s\' script installer')
-  if component.isAvailable('internet') then
-    local internet = component.internet
-    -- local internet = require('internet')
-  else
-    print('An internet card is required for script installer')
-    return false
-  end
-  removeExistingScripts()
-  createMissingDirs()
-  local githubInstallBranch = getGithubInstallBranch()
-  printInstallScripts()
-  local numCurrScript = 0
-  for installPath, githubPath in pairs(installPathsAndScripts) do
-    updateInstallPercent(numCurrScript, githubPath)
-    os.sleep(0.5)
-    local scriptData = fetchScript(githubInstallBranch, githubPath)
-    if scriptData == nil then
-      print('Failed to download script: ' .. 
-        string.match(githubPath, '([^/]+)$'))
-      return false
-    end
-    if not installScript(scriptData) then
-      print('Failed to install script: ' .. 
-      string.match(githubPath, '([^/]+)$'))
-    end
-    currScriptNum = currScriptNum + 1
-    updateInstallPercent(numCurrScript, githubPath)
-  end
-end
 
 --- removeExistingScripts removes any existing scripts in intallPathsAndScripts
 local function removeExistingScripts()
@@ -173,6 +140,42 @@ local function installScript(installPath, scriptData)
   file:write(scriptData)
   file:close()
   return true
+end
+
+--- main
+local function main()
+  print('Running \'zccafa3\'s\' script installer')
+  if component.isAvailable('internet') then
+    local internet = component.internet
+    -- local internet = require('internet')
+  else
+    print('An internet card is required for script installer')
+    return false
+  end
+  removeExistingScripts()
+  createMissingDirs()
+  local githubInstallBranch = getGithubInstallBranch()
+  printInstallScripts()
+  local numCurrScript = 0
+  for installPath, githubPath in pairs(installPathsAndScripts) do
+    updateInstallPercent(numCurrScript, githubPath)
+    os.sleep(0.5)
+    local scriptData = fetchScript(githubInstallBranch, githubPath)
+    if scriptData == nil then
+      print('Failed to download script: ' .. 
+        string.match(githubPath, '([^/]+)$'))
+      return false
+    end
+    if not installScript(scriptData) then
+      print('Failed to install script: ' .. 
+      string.match(githubPath, '([^/]+)$'))
+    end
+    currScriptNum = currScriptNum + 1
+    updateInstallPercent(numCurrScript, githubPath)
+  end
+  print('Installation complete. Restarting system.')
+  os.sleep(1)
+  computer.shutdown(true)
 end
 
 main()
