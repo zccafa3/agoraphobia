@@ -10,7 +10,6 @@ _ENV = ctrlLib
 
 --- halt throws an error to try and terminate the current coroutine
 local function halt()
-  commsLib.sendMasterData('ctrl:halt')
   os.exit()
 end
 

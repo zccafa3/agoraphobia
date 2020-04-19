@@ -10,20 +10,15 @@ local gpu = component.gpu
 
 --- Github Download Repositorys URL and Instalation Paths
 local githubUserUrl = 'https://raw.githubusercontent.com/zccafa3/agoraphobia/'
-local githubDir = 'worker/'
+local githubDir = 'master/'
 
 local installPathsAndScripts = {
-  ['/home/lib/baseLib.lua']     = 'lib/baseLib.lua',
-  ['/home/lib/commsLib.lua']    = 'lib/commsLib.lua',
-  ['/home/lib/ctrlLib.lua']     = 'lib/ctrlLib.lua',
-  ['/home/lib/debugLib.lua']    = 'lib/debugLib.lua',
-  ['/home/lib/extInvLib.lua']   = 'lib/extInvLib.lua',
-  ['/home/lib/extTankLib.lua']  = 'lib/extTankLib.lua',
-  ['/home/lib/intInvLib.lua']   = 'lib/intInvLib.lua',
-  ['/home/lib/intTankLib.lua']  = 'lib/intTankLib.lua',
-  ['/home/lib/sidesLib.lua']    = 'lib/sidesLib.lua',
-  ['/home/lib/utilsLib.lua']    = 'lib/utilsLib.lua',
-  ['/home/worker.lua']          = 'worker.lua'}
+  ['/home/lib/commsLib.lua']  = 'lib/commsLib.lua',
+  ['/home/lib/ctrlLib.lua']   = 'lib/ctrlLib.lua',
+  ['/home/lib/logLib.lua']    = 'lib/logLib.lua',
+  ['/home/lib/masterLib.lua'] = 'lib/masterLib.lua',
+  ['/home/lib/utilsLib.lua']  = 'lib/utilsLib.lua',
+  ['/home/master.lua']        = 'master.lua'}
 
 --- removeExistingScripts removes any existing scripts in intallPathsAndScripts
 local function removeExistingScripts()

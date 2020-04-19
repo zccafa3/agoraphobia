@@ -1,44 +1,46 @@
-local component = require('component')
-local event = require('event')
-
-local utilsLib = require('utilsLib')
-local ctrlLib = require('ctrlLib')
+--- Dependencies
 local baseLib = require('baseLib')
-local intInvLib = require('intInvLib')
-local intTankLib = require('intTankLib')
+local commsLib = require('commsLib')
+local ctrlLib = require('ctrlLib')
+local debugLib = require('debugLib')
 local extInvLib = require('extInvLib')
 local extTankLib = require('extTankLib')
+local intInvLib = require('intInvLib')
+local intTankLib = require('intTankLib')
+local utilsLib = require('utilsLib')
 
-local tunnel = component.tunnel
-
+--- Table of known instructs
+-- @table knownInstructs
 local knownInstructs = {
-  ctrl = ctrlLib,
-  base = baseLib,
-  intInv = intInvLib,
-  intTank = intTankLib,
-  extInv = extInvLib,
-  extTank = extInvLib}
+  base    = baseLib,
+  ctrl    = ctrlLib,
+  debug   = debugLib,
+  extInv  = extInvLib,
+  extTank = extTankLib,
+  intInv  = intInvLib,
+  intTank = intTankLib}
 
-function handleInstruct(instructStr)
+--- handleInstruct executes the specified instruct
+-- @param instructStr instruction to be executed
+-- @tparam string
+-- @return relative returns
+local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgs)
 end
 
-function getMasterData()
-  local _, _, _, _, _, recievedData = event.pull('modem_message')
-  return recievedData
+--- main
+local function main()
+  while true do
+    print('Running Worker program\nawaiting instruction from Master')
+    instructStr = commsLib.getMasterData()
+    print('recieved instruction: ' .. instructStr)
+    os.sleep(0.5)
+    print('commencing execution of instruct in 3 seconds')
+    os.sleep(3)
+    instructReturns = {handleInstruct(instructStr)}
+    commsLib.sendMasterData('rtn:' .. table.concat(instructReturns, ':'))
+  end
 end
 
-function sendMasterData(data)
-  return tunnel.send(data)
-end
-
-while true do
-  print('worker program running\nawaiting instruction')
-  recievedData = getMasterData()
-  print('recieved instruction: '..recievedData)
-  print('commencing execution of instruction in 3 seconds')
-  os.sleep(3)
-  instructReturns = {handleInstruct(recievedData)}
-  sendMasterData(table.concat(instructReturns))
-end
+main()
