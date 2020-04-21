@@ -13,6 +13,7 @@ local githubUserUrl = 'https://raw.githubusercontent.com/zccafa3/agoraphobia/'
 local githubDir = 'master/'
 
 local installPathsAndScripts = {
+  ['/home/at/at_ctrlLib.lua'] = 'at/at_ctrlLib.lua',
   ['/home/lib/commsLib.lua']  = 'lib/commsLib.lua',
   ['/home/lib/ctrlLib.lua']   = 'lib/ctrlLib.lua',
   ['/home/lib/logLib.lua']    = 'lib/logLib.lua',
