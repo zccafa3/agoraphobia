@@ -1,5 +1,5 @@
 --- Automated Test Environment
-local atEnv = 'at_ctrlLib.lua'
+local atEnv = 'at_ctrlLib'
 
 --- Dependencies
 local masterLib = require('masterLib')
