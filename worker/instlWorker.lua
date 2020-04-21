@@ -39,14 +39,8 @@ end
 local function createMissingDirs()
   for installPath, githubPath in pairs(installPathsAndScripts) do
     local directoryPath = filesystem.path(installPath)
-    if directoryPath ~= nil then
-      local directoryPathSegments = filesystem.segments(directoryPath)
-      for _, segment in pairs(directoryPathSegments) do
-        local directory = filesystem.concat('/', segment)
-        if not filesystem.exists(directory) then
-          filesystem.makeDirectory(directory)
-        end
-      end
+    if directoryPath ~= nil and not filesystem.exists(directoryPath) then
+      filesystem.makeDirectory(directoryPath)
     end
   end
 end
