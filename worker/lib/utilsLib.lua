@@ -35,14 +35,25 @@ end
 -- @return table of string splits, or string
 function utilsLib.multiSplitStrAtColon(string)
   local stringList = {}
-  if type(string) == string and utilsLib.checkColonInStr(string) then
+  if type(string) == 'string' and checkColonInStr(string) then
     for str in string.gmatch(string, '[^:]+') do
       table.insert(stringList, str)
     end
-  elseif type(string) == string then
+  elseif type(string) == 'string' then
     table.insert(stringList, string)
   end
   return stringList
+end
+
+--- splitStrAtCharNum splits a string at the specified character number
+-- @param string to be split
+-- @tparam string
+-- @param charNum character number for string to be split
+-- @tparam number
+-- @return string before specified charNum
+-- @return string after specified charNum
+function utilsLib.splitStrAtCharNum(string, charNum)
+  return string.match(string, '(.-' .. string.rep('.', charNum) .. ')(.*)')
 end
 
 --- runFuncWithArgs executes the specified function with appropriate number of
@@ -54,7 +65,7 @@ end
 -- @return relative returns
 -- @todo handle more arguements (if required)
 function utilsLib.runFuncWithArgs(f, argList)
-  if argList == nil then
+  if #argList == 0 then
     return f()
   elseif #argList == 1 then
     return f(argList[1])
@@ -62,6 +73,19 @@ function utilsLib.runFuncWithArgs(f, argList)
     return f(argList[1], argList[2])
   elseif #argList == 3 then
     return f(argList[1], argList[2], argList[3])
+  elseif #argList == 4 then
+    return f(argList[1], argList[2], argList[3], argList[4])
+  elseif #argList == 5 then
+    return f(argList[1], argList[2], argList[3], argList[4], argList[5])
+  elseif #argList == 6 then
+    return f(argList[1], argList[2], argList[3], argList[4], argList[5],
+      argList[6])
+  elseif #argList == 7 then
+    return f(argList[1], argList[2], argList[3], argList[4], argList[5],
+      argList[6], argList[7])
+  elseif #argList == 6 then
+    return f(argList[1], argList[2], argList[3], argList[4], argList[5],
+      argList[6], argList[7], argList[8])
   else
     -- todo: handle more arguements (if required)
   end

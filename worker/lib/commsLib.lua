@@ -3,7 +3,8 @@
 local  commsLib = {}
 
 --- Dependencies
-local conmponent = require('component')
+local component = require('component')
+local event = require('event')
 
 local utilsLib = require('utilsLib')
 

@@ -12,13 +12,13 @@ local utilsLib = require('utilsLib')
 --- Table of known instructs
 -- @table knownInstructs
 local knownInstructs = {
-  base    = baseLib,
-  ctrl    = ctrlLib,
-  debug   = debugLib,
-  extInv  = extInvLib,
-  extTank = extTankLib,
-  intInv  = intInvLib,
-  intTank = intTankLib}
+  base    = baseLib.handleBaseInstruct,
+  ctrl    = ctrlLib.handleCtrlInstruct,
+  debug   = debugLib.handleDebugInstruct,
+  extInv  = extInvLib.handleExtInvInstruct,
+  extTank = extTankLib.handleExtTankInstruct,
+  intInv  = intInvLib.handleIntInvInstruct,
+  intTank = intTankLib.handleIntTankInstruct}
 
 --- handleInstruct executes the specified instruct
 -- @param instructStr instruction to be executed
@@ -26,6 +26,7 @@ local knownInstructs = {
 -- @return relative returns
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
+  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgs)
 end
 

@@ -3,15 +3,23 @@
 local ctrlLib = {}
 
 --- Dependencies
+local computer = require('computer')
+
 local commsLib = require('commsLib')
 local utilsLib = require('utilsLib')
+
+local os = os
 
 _ENV = ctrlLib
 
 --- halt throws an error to try and terminate the current coroutine
-local function halt()
+local function halt(restart)
   commsLib.sendMasterData('ctrl:halt')
-  os.exit()
+  if restart == true then
+    computer.shutdown(restart)
+  else
+    os.exit()
+  end
 end
 
 --- Table of known instructs

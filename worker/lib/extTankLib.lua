@@ -51,7 +51,7 @@ local knownInstructs = {
 -- @param instructStr instruction to be executed
 -- @tparam string
 -- @return relative returns
-function extTankLib.handleExtInvInstruct(instructStr)
+function extTankLib.handleExtTankInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
   return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
