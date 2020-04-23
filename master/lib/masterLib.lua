@@ -23,7 +23,7 @@ local knownInstructs = {
 -- @return relative returns
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], {instructArg})
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], {instructArgs})
 end
 
 --- excecuteInstruct logs and executes a specified Worker instruct

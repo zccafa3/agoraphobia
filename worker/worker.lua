@@ -2,7 +2,7 @@
 local baseLib = require('baseLib')
 local commsLib = require('commsLib')
 local ctrlLib = require('ctrlLib')
-local debugLib = require('debugLib')
+-- local debugLib = require('debugLib')
 local extInvLib = require('extInvLib')
 local extTankLib = require('extTankLib')
 local intInvLib = require('intInvLib')
@@ -14,7 +14,7 @@ local utilsLib = require('utilsLib')
 local knownInstructs = {
   base    = baseLib.handleBaseInstruct,
   ctrl    = ctrlLib.handleCtrlInstruct,
-  debug   = debugLib.handleDebugInstruct,
+  -- debug   = debugLib.handleDebugInstruct,
   extInv  = extInvLib.handleExtInvInstruct,
   extTank = extTankLib.handleExtTankInstruct,
   intInv  = intInvLib.handleIntInvInstruct,

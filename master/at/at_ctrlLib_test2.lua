@@ -12,7 +12,7 @@ local string = string
 --- main
 local function main(instructStr)
   local datetime = os.date()
-  local date = string.sub(datetime, 8) 
+  local date = string.sub(datetime, 1, 8) 
   logLib.writeLog(envType, atEnv, '[' .. date .. '] Test 2\n')
   masterLib.executeInstruct(envType, atEnv, instructStr)
 end
