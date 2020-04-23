@@ -1,9 +1,9 @@
 --- Provide functionality for Master-Worker communication methods
 -- @module commsLib
-local  commsLib = {}
+local commsLib = {}
 
 --- Dependencies
-local conmponent = require('component')
+local component = require('component')
 local event = require('event')
 
 local utilsLib = require('utilsLib')
