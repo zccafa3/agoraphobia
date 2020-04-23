@@ -27,19 +27,19 @@ local knownInstructs = {
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
   local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgs)
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
 --- main
 local function main()
   while true do
     print('Running Worker program\nawaiting instruction from Master')
-    instructStr = commsLib.getMasterData()
+    local instructStr = commsLib.getMasterData()
     print('recieved instruction: ' .. instructStr)
     os.sleep(0.5)
     print('commencing execution of instruct in 3 seconds')
     os.sleep(3)
-    instructReturns = {handleInstruct(instructStr)}
+    local instructReturns = {handleInstruct(instructStr)}
     commsLib.sendMasterData('rtn:' .. table.concat(instructReturns, ':'))
   end
 end

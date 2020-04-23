@@ -13,7 +13,7 @@ _ENV = masterLib
 --- Table of known instructs
 -- @table knownInstructs
 local knownInstructs = {
-  ctrl  = ctrlLib}
+  ctrl = ctrlLib.handleCtrlInstruct}
 
 --- handleInstruct executes the specified instruct
 -- @param instructStr
@@ -21,7 +21,8 @@ local knownInstructs = {
 -- @return relative returns
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgs)
+  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
 end
 
 --- excecuteInstruct logs and executes a specified Worker instruct
@@ -29,18 +30,21 @@ end
 -- @tparam string
 -- @param instructStr the specified instruct to be executed
 -- @tparam string
-function masterLib.executeInstruct(instructEnv, instructStr)
+function masterLib.executeInstruct(instructEnvType, instructEnv, instructStr)
   print('Sending instruct: ' .. instructStr)
-  logLib.writeLog(instructEnv, logLib.fmtCallCmdLogMsg(instructStr))
+  logLib.writeLog(instructEnvType, instructEnv,
+    logLib.fmtCallCmdLogMsg('Worker', instructStr))
   commsLib.sendWorkerData(instructStr)
-  workerRtn = commsLib.getWorkerData()
+  local workerRtn = commsLib.getWorkerData()
   print('Instruct returned: ' .. workerRtn)
-  if string.match(workerRtn, '(.-):') == 'rtn' then
-    _, workerRtns = utilsLib.splitStrAtColon(workerRtn)
-    logLib.writeLog(instructEnv,
-      logLib.fmtCmdRtnsLogMsg(instructStr, workerRtns))
-  else
-    handleInstruct(workerRtn)
+  local workerRtnType, workerRtns = utilsLib.splitStrAtColon(workerRtn)
+  if workerRtnType == 'rtn' then
+    logLib.writeLog(instructEnvType, instructEnv,
+      logLib.fmtCmdRtnsLogMsg('Worker', instructStr, workerRtns) .. '\n')
+  elseif workerRtnType == 'cmd' then
+    logLib.writeLog(instructEnvType, instructEnv,
+      logLib.fmtCallCmdLogMsg('Master', workerRtns) .. '\n')
+    handleInstruct(workerRtns)
   end
 end
 

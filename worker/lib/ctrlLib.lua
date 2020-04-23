@@ -14,10 +14,11 @@ _ENV = ctrlLib
 
 --- halt throws an error to try and terminate the current coroutine
 local function halt(restart)
-  commsLib.sendMasterData('ctrl:halt')
   if restart == true then
+    commsLib.sendMasterData('cmd:ctrl:halt:true')
     computer.shutdown(restart)
   else
+    commsLib.sendMasterData('cmd:ctrl:halt')
     os.exit()
   end
 end

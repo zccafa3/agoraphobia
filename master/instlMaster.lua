@@ -13,13 +13,15 @@ local githubUserUrl = 'https://raw.githubusercontent.com/zccafa3/agoraphobia/'
 local githubDir = 'master/'
 
 local installPathsAndScripts = {
-  ['/home/at/at_ctrlLib.lua'] = 'at/at_ctrlLib.lua',
-  ['/home/lib/commsLib.lua']  = 'lib/commsLib.lua',
-  ['/home/lib/ctrlLib.lua']   = 'lib/ctrlLib.lua',
-  ['/home/lib/logLib.lua']    = 'lib/logLib.lua',
-  ['/home/lib/masterLib.lua'] = 'lib/masterLib.lua',
-  ['/home/lib/utilsLib.lua']  = 'lib/utilsLib.lua',
-  ['/home/master.lua']        = 'master.lua'}
+  ['/home/at/at_ctrlLib_testAll.lua'] = 'at/at_ctrlLib_testAll.lua',
+  ['/home/at/at_ctrlLib_test1.lua']   = 'at/at_ctrlLib_test1.lua',
+  ['/home/at/at_ctrlLib_test2.lua']   = 'at/at_ctrlLib_test2.lua',
+  ['/home/lib/commsLib.lua']          = 'lib/commsLib.lua',
+  ['/home/lib/ctrlLib.lua']           = 'lib/ctrlLib.lua',
+  ['/home/lib/logLib.lua']            = 'lib/logLib.lua',
+  ['/home/lib/masterLib.lua']         = 'lib/masterLib.lua',
+  ['/home/lib/utilsLib.lua']          = 'lib/utilsLib.lua',
+  ['/home/master.lua']                = 'master.lua'}
 
 --- removeExistingScripts removes any existing scripts in intallPathsAndScripts
 local function removeExistingScripts()

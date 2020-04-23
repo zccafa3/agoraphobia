@@ -1,6 +1,6 @@
 --- Provide functionality for Worker-Master communication methods
 -- @module commsLib
-local  commsLib = {}
+local commsLib = {}
 
 --- Dependencies
 local component = require('component')
