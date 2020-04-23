@@ -13,10 +13,12 @@ local os = os
 _ENV = ctrlLib
 
 --- halt throws an error to try and terminate the current coroutine
+-- @param restart whether to restart the device after the halt
+-- @tparam string
 local function halt(restart)
-  if restart == true then
+  if restart == 'true' then
     commsLib.sendMasterData('cmd:ctrl:halt:true')
-    computer.shutdown(restart)
+    computer.shutdown(true)
   else
     commsLib.sendMasterData('cmd:ctrl:halt')
     os.exit()

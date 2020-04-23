@@ -8,6 +8,8 @@ local ctrlLib = require('ctrlLib')
 local logLib = require('logLib')
 local utilsLib = require('utilsLib')
 
+local print = print
+
 _ENV = masterLib
 
 --- Table of known instructs
@@ -21,8 +23,7 @@ local knownInstructs = {
 -- @return relative returns
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], {instructArg})
 end
 
 --- excecuteInstruct logs and executes a specified Worker instruct

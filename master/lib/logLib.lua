@@ -105,7 +105,7 @@ end
 -- @return formatted command returns log message
 function logLib.fmtCmdRtnsLogMsg(device, instructStr, instructRtns)
   local instructLib, instructAndArgs = utilsLib.splitStrAtColon(instructStr)
-  local instruct, _ = utilsLib.splitStrAtColon(instructAndArgs)
+  local instruct, instructRtns = utilsLib.splitStrAtColon(instructAndArgs)
   local instructRtnList = utilsLib.multiSplitStrAtColon(instructRtns)
   local datetime = os.date()
   local logMsg = '[' .. datetime .. '] Command Returns; ' .. device ..

@@ -26,8 +26,7 @@ local knownInstructs = {
 -- @return relative returns
 local function handleInstruct(instructStr)
   local instruct, instructArgs = utilsLib.splitStrAtColon(instructStr)
-  local instructArgList = utilsLib.multiSplitStrAtColon(instructArgs)
-  return utilsLib.runFuncWithArgs(knownInstructs[instruct], instructArgList)
+  return utilsLib.runFuncWithArgs(knownInstructs[instruct], {instructArgs})
 end
 
 --- main
@@ -39,8 +38,8 @@ local function main()
     os.sleep(0.5)
     print('commencing execution of instruct in 3 seconds')
     os.sleep(3)
-    local instructReturns = {handleInstruct(instructStr)}
-    commsLib.sendMasterData('rtn:' .. table.concat(instructReturns, ':'))
+    local instructRtnList = {handleInstruct(instructStr)}
+    commsLib.sendMasterData('rtn:' .. table.concat(instructRtnList, ':'))
   end
 end
 
