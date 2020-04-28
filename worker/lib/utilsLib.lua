@@ -12,40 +12,40 @@ local type = type
 _ENV = utilsLib
 
 --- checkStrIsBool checks if the specified string is a boolean
--- @param string to be checked
+-- @param str string to be checked
 -- @tparam string
 -- @return true, or false
-local function checkStrIsBool(string)
-  return string == 'true' or string == 'false'
+local function checkStrIsBool(str)
+  return str == 'true' or str == 'false'
 end
 
 --- checkStrIsNum checks in the specified string is a number
--- @param string to be checked
+-- @param str string to be checked
 -- @tparam string
 -- @return true, or false
-local function checkStrIsNum(string)
-  return tonumber(string) ~= nil
+local function checkStrIsNum(str)
+  return tonumber(str) ~= nil
 end
 
 --- checkCharInStr checks if the specified character in string
 -- @param char character to check
 -- @tparam string
--- @param string to be checked
+-- @param str string to be checked
 -- @tparam string
 -- @return true, or false
-local function checkCharInStr(char, string)
-  return string.match(string, char) ~= nil
+local function checkCharInStr(char, str)
+  return string.match(str, char) ~= nil
 end
 
 --- checkStrInTab checks if string in table
--- @param string to check
+-- @param str string to check
 -- @tparam string
--- @param table to be checked
+-- @param tab to be checked
 -- @tparam table
 -- @return true, or false
-function utilsLib.checkStrInTab(string, table)
-  for _, val in ipairs(table) do
-    if val == string then
+function utilsLib.checkStrInTab(str, tab)
+  for _, val in ipairs(tab) do
+    if val == str then
       return true
     end
   end
@@ -54,109 +54,109 @@ end
 
 --- splitStrAtChar splits the string at the specified character (excluded)
 -- @param char character to split the string at (exluded)
--- @tparam string
--- @param string to be split
+-- @tparam str
+-- @param str string to be split
 -- @tparam string
 -- @return string before the specified character, or string
 -- @return string after the specified character, or nil
-local function splitStrAtChar(char, string)
-  if checkCharInStr(char, string) then
-    return string.match(string, '(.-)' .. char .. '(.*)')
+local function splitStrAtChar(char, str)
+  if checkCharInStr(char, str) then
+    return string.match(str, '(.-)' .. char .. '(.*)')
   else
-    return string, nil
+    return str, nil
   end
 end
 
 --- splitStrAtColon splits a string at ':' (excluded)
--- @param string to be split
+-- @param str string to be split
 -- @tparam string
 -- @return string before ':', or string
 -- @return string after ':', or nil
-function utilsLib.splitStrAtColon(string)
-  return splitStrAtChar(':', string)
+function utilsLib.splitStrAtColon(str)
+  return splitStrAtChar(':', str)
 end
 
 --- splitStrAtCharNum splits a string at the specified character number
--- @param string to be split
+-- @param str string to be split
 -- @tparam string
--- @param charNum character number for string to be split
+-- @param num character number for string to be split
 -- @tparam number
 -- @return string before specified charNum
 -- @return string after specified charNum
-function utilsLib.splitStrAtCharNum(string, charNum)
-  return string.match(string, '(.-' .. string.rep('.', charNum) .. ')(.*)')
+function utilsLib.splitStrAtCharNum(str, num)
+  return string.match(str, '(.-' .. string.rep('.', num) .. ')(.*)')
 end
 
 --- multiSplitStrAtChar splits the string at each specified character
 ---(excluded)
 -- @param char character to split the string at (excluded)
 -- @tparam string
--- @param string to be split
+-- @param str string to be split
 -- @tparam string
 -- @return table of string splits, or table of string, or empty table
-local function multiSplitStrAtChar(char, string)
-  local stringList = {}
-  if type(string) == 'string' and checkCharInStr(char, string) then
-    for str in string.gmatch(string, '[^' .. char .. ']+') do
-      table.insert(stringList, str)
+local function multiSplitStrAtChar(char, str)
+  local strList = {}
+  if type(str) == 'string' and checkCharInStr(char, str) then
+    for val in string.gmatch(str, '[^' .. char .. ']+') do
+      table.insert(strList, val)
     end
-  elseif type(string) == 'string' then
-    table.insert(stringList, string)
+  elseif type(str) == 'string' then
+    table.insert(strList, str)
   end
-  return stringList
+  return strList
 end
 
 --- multiSplitStrAtColon splits a string at each ':' (excluded)
--- @param string to be split
+-- @param str string to be split
 -- @tparam string
 -- @return table of string splits, or table of string, or empty table
-function utilsLib.multiSplitStrAtColon(string)
-  return multiSplitStrAtChar(':', string)
+function utilsLib.multiSplitStrAtColon(str)
+  return multiSplitStrAtChar(':', str)
 end
 
 --- multiSplitStrAtSemiColon splits a string at each ';' (excluded)
--- @param string to be split
+-- @param str string to be split
 -- @tparam string
 -- @return table of string splits, or table of string, or empty table
-function utilsLib.multiSplitStrAtSemiColon(string)
-  return multiSplitStrAtChar(';', string)
+function utilsLib.multiSplitStrAtSemiColon(str)
+  return multiSplitStrAtChar(';', str)
 end
 
 --- fmtTabVals formats a table of strings to their respective value types
--- @param table of strings to format
+-- @param tab table of strings to format
 -- @tparam table
 -- @return table of strings
-local function fmtTabVals(table)
-  local valueTab = {}
-  for _, str in ipairs(table) do
+local function fmtTabVals(tab)
+  local valTab = {}
+  for _, str in ipairs(tab) do
     if checkStrIsBool(str) then
       if str == 'true' then
-        table.insert(valueTab, true)
+        table.insert(valTab, true)
       else
-        table.insert(valueTab, false)
+        table.insert(valTab, false)
       end
     elseif checkStrIsNum(str) then
-      table.insert(valueTab, tonumber(str))
+      table.insert(valTab, tonumber(str))
     else
-      table.insert(valueTab, str)
+      table.insert(valTab, str)
     end
   end
   return valueTab
 end
 
 --- fmtTabAsStr formats a table of value types to a string seperated by ':'
--- @param table of values to format
+-- @param tab table of values to format
 -- @tparam table
 -- @return string
-function utilsLib.fmtTabAsStr(table)
-  local string = ''
-  for i, val in ipairs(table) do
-    string = string .. tostring(val)
-    if i ~= #table then
-      string = string .. ':'
+function utilsLib.fmtTabAsStr(tab)
+  local str = ''
+  for i, val in ipairs(tab) do
+    str = str .. tostring(val)
+    if i ~= #tab then
+      str = str .. ':'
     end
   end
-  return string
+  return str
 end
 
 --- runFuncWithArgs executes the specified function with appropriate number of
