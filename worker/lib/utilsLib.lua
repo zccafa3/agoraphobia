@@ -141,7 +141,7 @@ local function fmtTabVals(tab)
       table.insert(valTab, str)
     end
   end
-  return valueTab
+  return valTab
 end
 
 --- fmtTabAsStr formats a table of value types to a string seperated by ':'

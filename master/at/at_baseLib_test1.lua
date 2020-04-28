@@ -16,55 +16,110 @@ local string = string
 --- Physical Test Dependencies
 
 --- Automated Test Variables
-local testOrderList = {
-  'Test 0: ',
-  'Test 1: get name of Worker device',
-  'Test 2: get color of device light',
-  'Test 3: set color of device light',
-  'Test 4: get durability of equipped tool',
-  'Test 5a: move device forward',
-  'Test 5b: move decice up',
-  'Test 5c: move device back',
-  'Test 5d: move device down',
-  'Test 6a: turn device to the left',
-  'Test 6b: turn device to the right',
-  'Test 7a: move forward, place block front',
-  'Test 7b: place a block right',
-  'Test 7c: place a block back',
-  'Test 7d: place a block left',
-  'Test 7e: move up, place block down',
-  'Test 7f: place block up',
-  'Test 7g: move forward (x4), place block front',
-  'Test 7h: place a block right',
-  'Test 7i: place a block back',
-  'Test 7j: place a block left',
-  'Test 7k: move down, move forward (x3), place block up',
-  'Test 7l: move forward (x2), move up (x2), place block down'}
+local testReqsStr = 'debug:insertItemToInv'
 
-local testInstructList = {
-  'debug:insertItemToInv:',
-  'base:getName',
-  'base:getLightColor',
-  'base:setLightColor:0xFFFFFF',
-  'base:getToolDurability',
-  'base:move:f',
-  'base:move:u',
-  'base:move:b',
-  'base:move:d',
-  'base:turn:l',
-  'base:turn:r',
-  'base:move:f;base:placeBlock:f',
-  'base:placeBlock:r',
-  'base:placeBlock:b',
-  'base:placeBlock:l',
-  'base:move:u;base:placeBlock:d',
-  'base:placeBlock:u',
-  'base:move:f;base:move:f;base:move:f;base:move:f;base:placeBlock:f',
-  'base:placeBlock:r',
-  'base:placeBlock:b',
-  'base:placeBlock:l',
-  'base:move:d;base:move:f;base:move:f;base:move:f;base:placeBlock:u',
-  'base:move:f;base:move:f;base:move:u;base:move:u;base:placeBlock:d'}
+local testDictList = {
+{
+  ['id']    = '0',
+  ['desc']  = 'get test requirements',
+  ['cmd']   = testReqsStr,
+  ['rtn']   = 'true'},
+{
+  ['id']    = '1',
+  ['desc']  = 'get name of Worker device',
+  ['cmd']   = 'base:getName',
+  ['rtn']   = 'doggo'},
+{
+  ['id']    = '2',
+  ['desc']  = 'get color of device light',
+  ['cmd']   = 'base:getLightColor',
+  ['rtn']   = '0xFFFFFF'},
+{
+  ['id']    = '3',
+  ['desc']  = 'set color of device light',
+  ['cmd']   = 'base:setLightColor:0xFFFFFF',
+  ['trn']   = '16777215.0'},
+{
+  ['id']    = '4',
+  ['desc']  = 'get durability of equipped tool',
+  ['cmd']   = 'base:getToolDurability',
+  ['rtn']   = ''},
+{
+  ['id']    = '5.1',
+  ['desc']  = 'turn device to the left',
+  ['cmd']   = 'base:turn:l',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '5.2',
+  ['desc']  = 'turn device to the right',
+  ['cmd']   = 'base:turn:r',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '6.1',
+  ['desc']  = 'move device forward',
+  ['cmd']   = 'base:move:f',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '6.2',
+  ['desc']  = 'move device up',
+  ['cmd']   = 'base:move:u',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '6.3',
+  ['desc']  = 'move device back',
+  ['cmd']   = 'base:move:b',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '6.4',
+  ['desc']  = 'move device down',
+  ['cmd']   = 'base:move:d',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '7.0.1',
+  ['desc']  = 'prep for \'placeBlock\' test',
+  ['cmd']   = 'base:move:f',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '7.1',
+  ['desc']  = 'place block front',
+  ['cmd']   = 'base:placeBlock:f',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '7.0.2',
+  ['desc']  = 'setup for \'placeBlock\' test',
+  ['cmd']   = 'base:turn:r;base:move:f;base:turn:l;2(base:placeBlock:f;base:move:u);base:placeBlock:f;base:move:b;base:placeBlock:f;base:move:l;base:move:f;base:move:r;base:move:d;base:move:f',
+  ['rtn']   = 'true;true;true;true;true;true;true;true;true;true;true;true;true;true;true'},
+{
+  ['id']    = '7.2',
+  ['desc']  = 'place block up',
+  ['cmd']   = 'base:placeBlock:u',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '7.3',
+  ['desc']  = 'place block down',
+  ['cmd']   = 'base:placeBlock:d',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '8.1',
+  ['desc']  = 'harvest (left click) block front',
+  ['cmd']   = 'base:leftClick:f',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '8.2',
+  ['desc']  = 'harvest (left click) block up',
+  ['cmd']   = 'base:leftClick:u',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '8.3',
+  ['desc']  = 'harvest (left click) block down',
+  ['cmd']   = 'base:leftClick:d',
+  ['rtn']   = 'true'},
+{
+  ['id']    = '7.0.2',
+  ['desc']  = 'clean-up for \'placeBlock\' test',
+  ['cmd']   = 'base:move:b;base:move:u;base:tun:r;base:move:f;base:turn:l;base:leftClick:f;base:move:f;2(base:leftClick:f;base:move:d);base:leftClick:f;base:turn:l;base:move:f;base:turn:r;base:leftClick:f',
+  ['rtn']   = 'true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true'},
+}
 
 local testMaterialDict = {
   ['minecraft:stone'] = 12} 
