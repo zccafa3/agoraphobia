@@ -8,12 +8,56 @@ local type = type
 
 _ENV = utilsLib
 
+--- checkCharInStr checks if the specified character in string
+-- @param char character to check
+-- @tparam string
+-- @param string to be checked
+-- @tparam string
+-- @return true, or false
+local function checkCharInStr(char, string)
+  return string.match(string, char) ~= nil
+end
+
+--- splitStrAtChar splits the string at the specified character (excluded)
+-- @param char character to split the string at (exluded)
+-- @tparam string
+-- @param string to be split
+-- @tparam string
+-- @return string before the specified character, or string
+-- @return string after the specified character, or nil
+local function splitStrAtChar(char, string)
+  if checkCharInStr(char, string) then
+    return string.match(string, '(.-)' .. char .. '(.*)')
+  else
+    return string, nil
+  end
+end
+
+--- multiSplitStrAtChar splits the string at each specified character
+---(excluded)
+-- @param char character to split the string at (excluded)
+-- @tparam string
+-- @param string to be split
+-- @tparam string
+-- @return table of string splits, or table of string, or empty table
+local function multiSplitStrAtChar(char, string)
+  local stringList = {}
+  if type(string) == 'string' and checkCharInStr(char, string) then
+    for str in string.gmatch(string, '[^' .. char .. ']+') do
+      table.insert(stringList, str)
+    end
+  elseif type(string) == 'string' then
+    table.insert(stringList, string)
+  end
+  return stringList
+end
+
 --- checkColonInStr checks if there is a ':' in string
 -- @param string to be checked
 -- @tparam string
 -- @return true, or false
 function utilsLib.checkColonInStr(string)
-  return string.match(string, ':') ~= nil
+  return checkCharInStr(':', string)
 end
 
 --- splitStrAtColon splits a string at ':' (excluded)
@@ -22,27 +66,23 @@ end
 -- @return string before ':', or string
 -- @return string after ':', or nil
 function utilsLib.splitStrAtColon(string)
-  if checkColonInStr(string) then
-    return string.match(string, '(.-):(.*)')
-  else
-    return string, nil
-  end
+  return splitStrAtChar(':', string)
 end
 
 --- multiSplitStrAtColon splits a string at each ':' (excluded)
 -- @param string to be split
 -- @tparam string
--- @return table of string splits, or string
+-- @return table of string splits, or table of string, or empty table
 function utilsLib.multiSplitStrAtColon(string)
-  local stringList = {}
-  if type(string) == 'string' and checkColonInStr(string) then
-    for str in string.gmatch(string, '[^:]+') do
-      table.insert(stringList, str)
-    end
-  elseif type(string) == 'string' then
-    table.insert(stringList, string)
-  end
-  return stringList
+  return multiSplitStrAtChar(':', string)
+end
+
+--- multiSplitStrAtSemiColon splits a string at each ';' (excluded)
+-- @param string to be split
+-- @tparam string
+-- @return table of string splits, or table of string, or empty table
+function utilsLib.multiSplitStrAtSemiColon(string)
+  return multiSplitStrAtChar(';', string)
 end
 
 --- splitStrAtCharNum splits a string at the specified character number
@@ -54,6 +94,36 @@ end
 -- @return string after specified charNum
 function utilsLib.splitStrAtCharNum(string, charNum)
   return string.match(string, '(.-' .. string.rep('.', charNum) .. ')(.*)')
+end
+
+--- checkStrInTab checks if string in table
+-- @param string to check
+-- @tparam string
+-- @param table to be checked
+-- @tparam table
+-- @return true, or false
+function utilsLib.checkStrInTab(string, table)
+  for _, val in ipairs(table) do
+    if val == string then
+      return true
+    end
+  end
+  return false
+end
+
+--- fmtTabAsStr formats a table of values to a string seperated by ':'
+-- @param table of values to format
+-- @tparam table
+-- @return string
+function utilsLib.fmtTabAsStr(table)
+  local string = ''
+  for i, val in ipairs(table) do
+    string = string .. tostring(val)
+    if i ~= #table then
+      string = string .. ':'
+    end
+  end
+  return string
 end
 
 --- runFuncWithArgs executes the specified function with appropriate number of

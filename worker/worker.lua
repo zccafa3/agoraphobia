@@ -39,7 +39,7 @@ local function main()
     print('commencing execution of instruct in 3 seconds')
     os.sleep(3)
     local instructRtnList = {handleInstruct(instructStr)}
-    commsLib.sendMasterData('rtn:' .. table.concat(instructRtnList, ':'))
+    commsLib.sendMasterData('rtn:' .. utilsLib.fmtTabAsStr(instructRtnList))
   end
 end
 
