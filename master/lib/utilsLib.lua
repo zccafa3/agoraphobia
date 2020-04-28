@@ -2,11 +2,30 @@
 -- @module utilsLib
 local utilsLib = {}
 
+local ipairs = ipairs
 local string = string
 local table = table
+local tonumber = tonumber
+local tostring = tostring
 local type = type
 
 _ENV = utilsLib
+
+--- checkStrIsBool checks if the specified string is a boolean
+-- @param string to be checked
+-- @tparam string
+-- @return true, or false
+local function checkStrIsBool(string)
+  return string == 'true' or string == 'false'
+end
+
+--- checkStrIsNum checks in the specified string is a number
+-- @param string to be checked
+-- @tparam string
+-- @return true, or false
+local function checkStrIsNum(string)
+  return tonumber(string) ~= nil
+end
 
 --- checkCharInStr checks if the specified character in string
 -- @param char character to check
@@ -16,6 +35,21 @@ _ENV = utilsLib
 -- @return true, or false
 local function checkCharInStr(char, string)
   return string.match(string, char) ~= nil
+end
+
+--- checkStrInTab checks if string in table
+-- @param string to check
+-- @tparam string
+-- @param table to be checked
+-- @tparam table
+-- @return true, or false
+function utilsLib.checkStrInTab(string, table)
+  for _, val in ipairs(table) do
+    if val == string then
+      return true
+    end
+  end
+  return false
 end
 
 --- splitStrAtChar splits the string at the specified character (excluded)
@@ -31,6 +65,26 @@ local function splitStrAtChar(char, string)
   else
     return string, nil
   end
+end
+
+--- splitStrAtColon splits a string at ':' (excluded)
+-- @param string to be split
+-- @tparam string
+-- @return string before ':', or string
+-- @return string after ':', or nil
+function utilsLib.splitStrAtColon(string)
+  return splitStrAtChar(':', string)
+end
+
+--- splitStrAtCharNum splits a string at the specified character number
+-- @param string to be split
+-- @tparam string
+-- @param charNum character number for string to be split
+-- @tparam number
+-- @return string before specified charNum
+-- @return string after specified charNum
+function utilsLib.splitStrAtCharNum(string, charNum)
+  return string.match(string, '(.-' .. string.rep('.', charNum) .. ')(.*)')
 end
 
 --- multiSplitStrAtChar splits the string at each specified character
@@ -52,23 +106,6 @@ local function multiSplitStrAtChar(char, string)
   return stringList
 end
 
---- checkColonInStr checks if there is a ':' in string
--- @param string to be checked
--- @tparam string
--- @return true, or false
-function utilsLib.checkColonInStr(string)
-  return checkCharInStr(':', string)
-end
-
---- splitStrAtColon splits a string at ':' (excluded)
--- @param string to be split
--- @tparam string
--- @return string before ':', or string
--- @return string after ':', or nil
-function utilsLib.splitStrAtColon(string)
-  return splitStrAtChar(':', string)
-end
-
 --- multiSplitStrAtColon splits a string at each ':' (excluded)
 -- @param string to be split
 -- @tparam string
@@ -85,33 +122,29 @@ function utilsLib.multiSplitStrAtSemiColon(string)
   return multiSplitStrAtChar(';', string)
 end
 
---- splitStrAtCharNum splits a string at the specified character number
--- @param string to be split
--- @tparam string
--- @param charNum character number for string to be split
--- @tparam number
--- @return string before specified charNum
--- @return string after specified charNum
-function utilsLib.splitStrAtCharNum(string, charNum)
-  return string.match(string, '(.-' .. string.rep('.', charNum) .. ')(.*)')
-end
-
---- checkStrInTab checks if string in table
--- @param string to check
--- @tparam string
--- @param table to be checked
+--- fmtTabVals formats a table of strings to their respective value types
+-- @param table of strings to format
 -- @tparam table
--- @return true, or false
-function utilsLib.checkStrInTab(string, table)
-  for _, val in ipairs(table) do
-    if val == string then
-      return true
+-- @return table of strings
+local function fmtTabVals(table)
+  local valueTab = {}
+  for _, str in ipairs(table) do
+    if checkStrIsBool(str) then
+      if str == 'true' then
+        table.insert(valueTab, true)
+      else
+        table.insert(valueTab, false)
+      end
+    elseif checkStrIsNum(str) then
+      table.insert(valueTab, tonumber(str))
+    else
+      table.insert(valueTab, str)
     end
   end
-  return false
+  return valueTab
 end
 
---- fmtTabAsStr formats a table of values to a string seperated by ':'
+--- fmtTabAsStr formats a table of value types to a string seperated by ':'
 -- @param table of values to format
 -- @tparam table
 -- @return string
@@ -135,6 +168,7 @@ end
 -- @return relative returns
 -- @todo handle more arguements (if required)
 function utilsLib.runFuncWithArgs(f, argList)
+  local argList = fmtTabVals(argList)
   if #argList == 0 then
     return f()
   elseif #argList == 1 then

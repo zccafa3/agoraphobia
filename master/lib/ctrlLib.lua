@@ -16,8 +16,8 @@ _ENV = ctrlLib
 -- @param restart whether to restart the device after halt
 -- @tparam string
 local function halt(restart)
-  if restart == 'true' then
-    computer.shutdown(true)
+  if restart then
+    computer.shutdown(restart)
   else 
     os.exit()
   end

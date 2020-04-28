@@ -16,9 +16,9 @@ _ENV = ctrlLib
 -- @param restart whether to restart the device after the halt
 -- @tparam string
 local function halt(restart)
-  if restart == 'true' then
+  if restart then
     commsLib.sendMasterData('cmd:ctrl:halt:true')
-    computer.shutdown(true)
+    computer.shutdown(restart)
   else
     commsLib.sendMasterData('cmd:ctrl:halt')
     os.exit()

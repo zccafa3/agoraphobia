@@ -10,12 +10,12 @@ _ENV = sidesLib
 --- Table of orientations and relative values
 -- @table knownSides
 local knownSides = {
-  u = sides.bottom,
-  d = sides.top,
-  f = sides.front,
-  b = sides.back,
-  l = sides.left,
-  r = sides.right}
+  ['u'] = sides.top,
+  ['d'] = sides.bottom,
+  ['f'] = sides.front,
+  ['b'] = sides.back,
+  ['l'] = sides.left,
+  ['r'] = sides.right}
 
 --- getSideVal provides the relative value for the specified orientation
 -- @param side specified orientation
